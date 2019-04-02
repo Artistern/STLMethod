@@ -14,26 +14,26 @@ using std::endl;
 template<typename  T>
 void Half_Search(T *a, int start, int end, T target)
 {
-	if (start >= end && a[start] != target)
+	int temp = 0;
+	while(start<=end)
 	{
-		cout << "没有" << endl;
-		return;
+		int j = start + ((end - start) >> 1);
+		temp = a[j];
+		if(temp>target)
+		{
+			end = j - 1;
+		}else if(temp<target)
+		{
+			start = j + 1;
+		}else
+		{
+			cout << "找到了" << endl;
+			return;
+		}
 	}
-	//int j = ((unsigned int)start + (unsigned int)end) >> 1;
-	int j = start + ((end - start) >> 1);
-	if (a[j] == target)
-	{
-		cout << "找到了" << endl;
-		return;
-	}
-	else if (a[j] > target)
-	{
-		Half_Search(a, start, j, target);
-	}
-	else if (a[j] < target)
-	{
-		Half_Search(a, j, end, target);
-	}
+	cout << "没有找到" << endl;
+	return;
+	
 }
 namespace init
 {
@@ -74,11 +74,12 @@ namespace practical_1
 	{
 		srand((int)time(0));
 		std::vector<int> vec;
-		for(int i=0;i<=value;i++)
+		for(int i=0;i<value;i++)
 		{
 			try
 			{
 				vec.push_back(rand());
+				//vec.push_back(i);
 			}
 			catch (std::exception& p)
 			{
@@ -99,9 +100,9 @@ namespace practical_1
 		cout << "花费的时间是："<<clock()-startTime << endl;
 		std::sort(vec.begin(), vec.end());
 		cout << "排序需要是时间：" << clock() - startTime << endl;
-		cout << endl;
+		
 		int *p = vec.data();
-		int Length = vec.size();
+		int Length = vec.size()-1;
 		Half_Search(p, 0, Length, target);
 	}
 	
